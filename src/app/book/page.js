@@ -80,7 +80,6 @@ export default function BookingPage() {
 
     return (
         <div className="min-h-screen bg-[#faf8f5]">
-            {/* Header - Fixed */}
             <header className="bg-white/95 backdrop-blur-md border-b border-gray-100 sticky top-0 z-50">
                 <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
                     {selectedService ? (
@@ -111,7 +110,6 @@ export default function BookingPage() {
             <main className="max-w-4xl mx-auto px-6 py-8">
                 {!selectedService ? (
                     <>
-                        {/* Profile Card */}
                         <div className="bg-white rounded-2xl p-6 mb-8 border border-gray-100 shadow-sm">
                             <div className="flex items-start gap-5">
                                 <img
@@ -135,14 +133,22 @@ export default function BookingPage() {
                             </div>
                         </div>
 
-                        {/* Services */}
                         <h2 className="text-2xl font-semibold text-gray-900 mb-5 tracking-wide">Book a Session</h2>
-                        <div className="grid sm:grid-cols-2 gap-4">
-                            {services.map((service) => (
+                        <div className="grid sm:grid-cols-2 gap-4" role="list" aria-label="Available services">
+                            {services.map((service) => (+
                                 <div
                                     key={service.id}
                                     onClick={() => setSelectedService(service)}
-                                    className="bg-white rounded-2xl p-5 cursor-pointer hover:shadow-lg transition-all border border-gray-100 hover:border-gray-200 group"
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            setSelectedService(service);
+                                        }
+                                    }}
+                                    role="button"
+                                    tabIndex={0}
+                                    aria-label={`${service.title}, ${service.type}, ${service.duration}, ${service.price}`}
+                                    className="bg-white rounded-2xl p-5 cursor-pointer hover:shadow-lg transition-all border border-gray-100 hover:border-gray-200 group focus:outline-none focus:ring-2 focus:ring-[#2d5a4a]"
                                 >
                                     <div className="flex items-start justify-between mb-3">
                                         <span className="text-[13px] text-gray-400 tracking-wide">{service.type} · {service.duration}</span>
@@ -156,7 +162,7 @@ export default function BookingPage() {
                                         <span className={`text-lg font-semibold ${service.price === "FREE" ? "text-[#2d5a4a]" : "text-gray-900"}`}>
                                             {service.price}
                                         </span>
-                                        <span className="w-9 h-9 bg-[#1a1a1a] rounded-full flex items-center justify-center text-white text-sm group-hover:bg-[#2d5a4a] transition-colors">
+                                        <span className="w-9 h-9 bg-[#1a1a1a] rounded-full flex items-center justify-center text-white text-sm group-hover:bg-[#2d5a4a] transition-colors" aria-hidden="true">
                                             →
                                         </span>
                                     </div>
@@ -166,7 +172,6 @@ export default function BookingPage() {
                     </>
                 ) : (
                     <div className="max-w-lg mx-auto">
-                        {/* Selected Service */}
                         <div className="bg-white rounded-2xl p-5 mb-5 border border-gray-100 shadow-sm">
                             <div className="flex items-center justify-between">
                                 <div>
@@ -179,15 +184,17 @@ export default function BookingPage() {
                             </div>
                         </div>
 
-                        {/* Form */}
                         <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
                             <h3 className="font-semibold text-gray-900 text-lg mb-5 tracking-wide">Your Details</h3>
                             <form onSubmit={handleSubmit} className="space-y-4">
                                 <div>
-                                    <label className="block text-[14px] font-medium text-gray-600 mb-2 tracking-wide">Name *</label>
+                                    <label htmlFor="name" className="block text-[14px] font-medium text-gray-600 mb-2 tracking-wide">Name *</label>
                                     <input
                                         type="text"
+                                        id="name"
+                                        name="name"
                                         required
+                                        autoComplete="name"
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                         className="w-full px-4 py-3 border border-gray-200 rounded-xl text-[15px] tracking-wide focus:outline-none focus:border-[#2d5a4a] focus:ring-1 focus:ring-[#2d5a4a]/20 transition-all"
@@ -196,10 +203,13 @@ export default function BookingPage() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-[14px] font-medium text-gray-600 mb-2 tracking-wide">Email *</label>
+                                    <label htmlFor="email" className="block text-[14px] font-medium text-gray-600 mb-2 tracking-wide">Email *</label>
                                     <input
                                         type="email"
+                                        id="email"
+                                        name="email"
                                         required
+                                        autoComplete="email"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                         className="w-full px-4 py-3 border border-gray-200 rounded-xl text-[15px] tracking-wide focus:outline-none focus:border-[#2d5a4a] focus:ring-1 focus:ring-[#2d5a4a]/20 transition-all"
@@ -208,9 +218,12 @@ export default function BookingPage() {
                                 </div>
 
                                 <div>
-                                    <label className="block text-[14px] font-medium text-gray-600 mb-2 tracking-wide">Phone</label>
+                                    <label htmlFor="phone" className="block text-[14px] font-medium text-gray-600 mb-2 tracking-wide">Phone</label>
                                     <input
                                         type="tel"
+                                        id="phone"
+                                        name="phone"
+                                        autoComplete="tel"
                                         value={formData.phone}
                                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                         className="w-full px-4 py-3 border border-gray-200 rounded-xl text-[15px] tracking-wide focus:outline-none focus:border-[#2d5a4a] focus:ring-1 focus:ring-[#2d5a4a]/20 transition-all"
@@ -218,37 +231,43 @@ export default function BookingPage() {
                                     />
                                 </div>
 
-                                <div>
-                                    <label className="block text-[14px] font-medium text-gray-600 mb-2 tracking-wide">Session Type</label>
-                                    <div className="flex gap-3">
+                                <fieldset>
+                                    <legend className="block text-[14px] font-medium text-gray-600 mb-2 tracking-wide">Session Type</legend>
+                                    <div className="flex gap-3" role="radiogroup" aria-label="Session type selection">
                                         <button
                                             type="button"
+                                            role="radio"
+                                            aria-checked={formData.sessionType === "online"}
                                             onClick={() => setFormData({ ...formData, sessionType: "online" })}
-                                            className={`flex-1 py-3 rounded-xl text-[15px] font-medium transition-all flex items-center justify-center gap-2 tracking-wide ${formData.sessionType === "online"
+                                            className={`flex-1 py-3 rounded-xl text-[15px] font-medium transition-all flex items-center justify-center gap-2 tracking-wide focus:outline-none focus:ring-2 focus:ring-[#2d5a4a] ${formData.sessionType === "online"
                                                 ? "bg-[#1a1a1a] text-white shadow-md"
                                                 : "bg-gray-50 text-gray-600 hover:bg-gray-100 border border-gray-200"
                                                 }`}
                                         >
-                                            <Video className="w-4 h-4" />
+                                            <Video className="w-4 h-4" aria-hidden="true" />
                                             Online
                                         </button>
                                         <button
                                             type="button"
+                                            role="radio"
+                                            aria-checked={formData.sessionType === "in-person"}
                                             onClick={() => setFormData({ ...formData, sessionType: "in-person" })}
-                                            className={`flex-1 py-3 rounded-xl text-[15px] font-medium transition-all flex items-center justify-center gap-2 tracking-wide ${formData.sessionType === "in-person"
+                                            className={`flex-1 py-3 rounded-xl text-[15px] font-medium transition-all flex items-center justify-center gap-2 tracking-wide focus:outline-none focus:ring-2 focus:ring-[#2d5a4a] ${formData.sessionType === "in-person"
                                                 ? "bg-[#1a1a1a] text-white shadow-md"
                                                 : "bg-gray-50 text-gray-600 hover:bg-gray-100 border border-gray-200"
                                                 }`}
                                         >
-                                            <MapPin className="w-4 h-4" />
+                                            <MapPin className="w-4 h-4" aria-hidden="true" />
                                             In-Person
                                         </button>
                                     </div>
-                                </div>
+                                </fieldset>
 
                                 <div>
-                                    <label className="block text-[14px] font-medium text-gray-600 mb-2 tracking-wide">What brings you here?</label>
+                                    <label htmlFor="concern" className="block text-[14px] font-medium text-gray-600 mb-2 tracking-wide">What brings you here?</label>
                                     <textarea
+                                        id="concern"
+                                        name="concern"
                                         value={formData.concern}
                                         onChange={(e) => setFormData({ ...formData, concern: e.target.value })}
                                         rows={3}

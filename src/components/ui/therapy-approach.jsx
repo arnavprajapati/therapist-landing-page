@@ -98,7 +98,7 @@ export default function TherapyApproach() {
                             <div className="rounded-2xl overflow-hidden bg-gray-100">
                                 <img
                                     src={activeImage}
-                                    alt="Therapy approach"
+                                    alt={therapyApproaches.find(t => t.image === activeImage)?.title || 'Therapy approach illustration'}
                                     className="w-full aspect-[4/3] object-cover transition-all duration-300"
                                 />
                             </div>

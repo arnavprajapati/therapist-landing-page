@@ -42,23 +42,23 @@ export default function OfficeSection() {
                         </p>
 
                         <div className="space-y-4">
-                            <div className="bg-[#f0f7f4] rounded-2xl p-5">
+                            <div className="bg-[#f0f7f4] rounded-2xl p-5" role="group" aria-label="Office location">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-xl shadow-sm">
+                                    <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-xl shadow-sm" aria-hidden="true">
                                         📍
                                     </div>
                                     <div>
                                         <p className="font-semibold text-gray-900">Santa Monica Office</p>
-                                        <p className="text-[14px] font-medium text-gray-500 leading-[1.8] tracking-wide">
+                                        <address className="text-[14px] font-medium text-gray-500 leading-[1.8] tracking-wide not-italic">
                                             123th Street 45 W, Santa Monica, CA 90401
-                                        </p>
+                                        </address>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="bg-[#f0f7f4] rounded-2xl p-5">
+                            <div className="bg-[#f0f7f4] rounded-2xl p-5" role="group" aria-label="Telehealth information">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-xl shadow-sm">
+                                    <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-xl shadow-sm" aria-hidden="true">
                                         💻
                                     </div>
                                     <div>
@@ -94,13 +94,16 @@ export default function OfficeSection() {
                             </div>
                         </div>
 
-                        <div className="flex gap-3 mt-4">
+                        <div className="flex gap-3 mt-4" role="tablist" aria-label="Office images">
                             {officeImages.map((img, index) => (
                                 <button
                                     key={img.id}
                                     onClick={() => setActiveImage(index)}
+                                    aria-label={`View ${img.caption}`}
+                                    aria-selected={index === activeImage}
+                                    role="tab"
                                     className={cn(
-                                        "flex-1 rounded-xl overflow-hidden aspect-video transition-all duration-300 cursor-pointer",
+                                        "flex-1 rounded-xl overflow-hidden aspect-video transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#2d5a4a]",
                                         index === activeImage
                                             ? "ring-2 ring-[#2d5a4a] ring-offset-2"
                                             : "opacity-60 hover:opacity-100"

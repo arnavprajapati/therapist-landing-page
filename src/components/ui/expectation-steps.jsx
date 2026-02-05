@@ -95,13 +95,16 @@ export default function ExpectationSteps({ className }) {
                             </AnimatePresence>
                         </div>
 
-                        <div className="flex justify-center gap-2 mt-4">
-                            {expectationSteps.map((_, index) => (
+                        <div className="flex justify-center gap-2 mt-4" role="tablist" aria-label="Expectation steps navigation">
+                            {expectationSteps.map((step, index) => (
                                 <button
                                     key={index}
                                     onClick={() => {
                                         setCurrentStep(index);
                                     }}
+                                    aria-label={`Go to step ${index + 1}: ${step.title}`}
+                                    aria-selected={index === currentStep}
+                                    role="tab"
                                     className={cn(
                                         "w-2 h-2 rounded-full transition-all duration-300 cursor-pointer",
                                         index === currentStep
@@ -113,12 +116,22 @@ export default function ExpectationSteps({ className }) {
                         </div>
                     </div>
 
-                    <div className="order-2 space-y-3 md:space-y-4 w-full">
+                    <div className="order-2 space-y-3 md:space-y-4 w-full" role="tabpanel">
                         {expectationSteps.map((step, index) => (
                             <motion.div
                                 key={index}
+                                role="button"
+                                tabIndex={0}
+                                aria-label={`Step ${index + 1}: ${step.title}`}
+                                aria-pressed={index === currentStep}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        setCurrentStep(index);
+                                    }
+                                }}
                                 className={cn(
-                                    "flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-2xl cursor-pointer transition-all duration-300",
+                                    "flex items-start gap-3 md:gap-4 p-3 md:p-4 rounded-xl md:rounded-2xl cursor-pointer transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#2d5a4a]/50",
                                     index === currentStep
                                         ? "bg-[#f5f0eb] shadow-sm"
                                         : "hover:bg-gray-50"

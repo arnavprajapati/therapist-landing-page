@@ -102,7 +102,7 @@ const TestimonialsColumn = ({ className, testimonials: items, duration = 10 }) =
                                             width={40}
                                             height={40}
                                             src={image}
-                                            alt={`${name}`}
+                                            alt={`Photo of ${name}`}
                                             className="h-10 w-10 rounded-full object-cover ring-2 ring-gray-100 group-hover:ring-[#2d5a4a]/30 transition-all duration-300 ease-in-out"
                                         />
                                         <div className="flex flex-col">
