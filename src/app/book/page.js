@@ -135,7 +135,7 @@ export default function BookingPage() {
 
                         <h2 className="text-2xl font-semibold text-gray-900 mb-5 tracking-wide">Book a Session</h2>
                         <div className="grid sm:grid-cols-2 gap-4" role="list" aria-label="Available services">
-                            {services.map((service) => (+
+                            {services.map((service) => (
                                 <div
                                     key={service.id}
                                     onClick={() => setSelectedService(service)}
